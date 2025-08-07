@@ -15,7 +15,7 @@ Irvine Eats project in Summer 2025
 - [Site map (WIP)](https://docs.google.com/document/d/19GwnO8bY4xKlP4oP5uUCL7DpsvbebuYR3BsbsPs0up0/edit?tab=t.0)
 - [Functional Requirements (WIP)](https://docs.google.com/document/d/1OTKmrjbNyQUgryRAbtTqK9v_dzpB85QWc0uKcX-rLSw/edit?tab=t.0#heading=h.xmffppwouut9)
 - [Rubric Specification (WIP)](https://docs.google.com/document/d/1scqNvKiBJua47wc_B1eVYJyfld1IAn4bacIdrBlhtGw/edit?usp=sharing)
-- etc.
+- [Wireframe (WIP)](https://www.figma.com/design/QgcqCbiAI8F39e5pzTTLQq/Wireframes?node-id=0-1&t=BOeItQWiqv3FYcil-1)
 
 ---
 
