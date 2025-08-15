@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     review_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     restaurant_id INTEGER NOT NULL,
-    rating INTEGER NOT NULL,
+    rating INTEGER CHECK(rating >= 1 AND rating <= 5), 
     comment TEXT,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id) ON DELETE CASCADE
