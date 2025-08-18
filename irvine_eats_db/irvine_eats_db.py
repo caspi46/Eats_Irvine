@@ -3,7 +3,7 @@ import sqlite3
 
 # Create a SQLite database and a table for users, then populate it with data from a CSV file.
 
-conn = sqlite3.connect('irvine_eats_user.db')
+conn = sqlite3.connect('irvine_eats.db')
 cursor = conn.cursor()
 
 # Create users table.
@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS restaurants (
     address TEXT NOT NULL,
     hours TEXT NOT NULL,
     category TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    rating REAL
+    phone TEXT NOT NULL
 )    
 ''')
 
@@ -55,6 +54,15 @@ CREATE TABLE IF NOT EXISTS reviews (
 )
 ''')
 
+# add rating from review 
+# use this for the average rating for the restaurant 
+cursor.execute("""
+SELECT restaurants.name, AVG(reviews.rating) AS avg_rating 
+FROM restaurants
+LEFT JOIN reviews ON restaurants.restaurant_id = reviews.restaurant_id 
+GROUP BY restaurants.restaurant_id
+""")
+
 # Read data from CSV files and insert into the database.
 
 with open('irvine_eats_user.csv', newline='') as csvfile:
@@ -69,9 +77,9 @@ with open('irvine_eats_restaurant.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         cursor.execute('''
-            INSERT INTO restaurants (name, address, hours, category, phone, rating) 
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (row['name'], row['address'], row['hours'], row['category'], row['phone'], row.get('rating')))
+            INSERT INTO restaurants (name, address, hours, category, phone) 
+            VALUES (?, ?, ?, ?, ?)
+        ''', (row['name'], row['address'], row['hours'], row['category'], row['phone']))
 
 with open('irvine_eats_menu.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
