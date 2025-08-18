@@ -92,8 +92,8 @@ with open('irvine_eats_restaurant.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         cursor.execute('''
-            INSERT INTO restaurants (name, address, hours, category, phone) 
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO restaurants (name, address, hours, category, phone, url) 
+            VALUES (?, ?, ?, ?, ?, ?)
         ''', (row['name'], row['address'], row['hours'], row['category'], row['phone'], row['url']))
 
 with open('irvine_eats_menu.csv', newline='') as csvfile:
