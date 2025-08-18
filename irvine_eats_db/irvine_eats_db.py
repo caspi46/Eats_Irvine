@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
 # Create restaurants table.
 # Entity: Restaurant
 # Primary Key: restaurant_id
-# attributes: name, address, hours, category, phone 
+# attributes: name, address, hours, category, phone, url
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS restaurants (
     restaurant_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS restaurants (
     address TEXT NOT NULL,
     hours TEXT NOT NULL,
     category TEXT NOT NULL,
-    phone TEXT NOT NULL
+    phone TEXT NOT NULL,
+    url TEXT NOT NULL 
 )    
 ''')
 
@@ -93,7 +94,7 @@ with open('irvine_eats_restaurant.csv', newline='') as csvfile:
         cursor.execute('''
             INSERT INTO restaurants (name, address, hours, category, phone) 
             VALUES (?, ?, ?, ?, ?)
-        ''', (row['name'], row['address'], row['hours'], row['category'], row['phone']))
+        ''', (row['name'], row['address'], row['hours'], row['category'], row['phone'], row['url']))
 
 with open('irvine_eats_menu.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
