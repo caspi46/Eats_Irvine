@@ -3,6 +3,15 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+// Pages 
+import Home from "./pages/Home";
+import FavoriteRestaurant from "./pages/FavoriteRestaurant";
+import LogIn from "./pages/LogIn";
+import RestaurantInfo from "./pages/RestaurantInfo";
+import Review from "./pages/Review";
+import SignUp from "./pages/SignUp";
+import UserInfo from "./pages/UserInfo";
+
 function App() {
   const [count, setCount] = useState(0)
 
