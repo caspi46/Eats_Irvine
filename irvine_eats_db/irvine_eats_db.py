@@ -7,6 +7,9 @@ conn = sqlite3.connect('irvine_eats.db')
 cursor = conn.cursor()
 
 # Create users table.
+# Entity: User
+# Primary Key: user_id
+# attributes: id, pw, name, email 
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,6 +21,9 @@ CREATE TABLE IF NOT EXISTS users (
 ''')
 
 # Create restaurants table.
+# Entity: Restaurant
+# Primary Key: restaurant_id
+# attributes: name, address, hours, category, phone 
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS restaurants (
     restaurant_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,6 +36,10 @@ CREATE TABLE IF NOT EXISTS restaurants (
 ''')
 
 # Create menu table.
+# Entity: Menu 
+# Primary Key: item_id
+# Other Key: restaurant_id from Restaurant
+# Attributes: item_name, description, price
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS menu (
     item_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +52,10 @@ CREATE TABLE IF NOT EXISTS menu (
 ''')
 
 # Create review table.
+# Entity: Review 
+# Primary Key: review_id
+# Other Keys: user_id from User, restaurant_id from Restaurant 
+# Attributes: rating, comment 
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS reviews (
     review_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,7 +68,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 )
 ''')
 
-# add rating from review 
+# get average rating from review table and restaurant table 
 # use this for the average rating for the restaurant 
 cursor.execute("""
 SELECT restaurants.name, AVG(reviews.rating) AS avg_rating 
