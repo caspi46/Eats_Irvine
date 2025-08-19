@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 
@@ -17,8 +18,10 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Login submiteted:", formData);
+        console.log("Login submitted:", formData);
     };
+
+    const navigate = useNavigate();
 
     return (
         <div classNmae="login-container">
@@ -26,7 +29,7 @@ function Login() {
                 <h2>Log In</h2>
 
                 <div className="form-group">
-                    <label>ID</label>
+                    <label>ID:</label>
                     <input
                         type="id"
                         name="id"
@@ -37,7 +40,7 @@ function Login() {
                 </div>
 
                 <div className="form-group">
-                    <label>PASSWORD</label>
+                    <label>Password:</label>
                     <input
                         type="password"
                         name="password"
@@ -46,10 +49,16 @@ function Login() {
                         required
                     />
                 </div>
-                <button type="submit" className="login-btn">
-                    Login
-                </button>
+                <div className="btn-group">
+                    <button type="submit" className="login-btn">
+                        Login
+                    </button>
+                    <button onClick={() => navigate("/signup")} className="signup-btn">
+                        Sign up
+                    </button>
+                </div>
             </form>
+
         </div>
     );
 }
