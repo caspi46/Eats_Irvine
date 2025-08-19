@@ -9,10 +9,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Home from "./pages/Home";
 // import FavoriteRestaurant from "./pages/FavoriteRestaurant";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
 
 // import RestaurantInfo from "./pages/RestaurantInfo";
 // import Review from "./pages/Review";
-// import SignUp from "./pages/SignUp";
 // import UserInfo from "./pages/UserInfo";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );
