@@ -29,12 +29,27 @@ CREATE TABLE IF NOT EXISTS restaurants (
     restaurant_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     address TEXT NOT NULL,
-    hours TEXT NOT NULL,
     category TEXT NOT NULL,
     phone TEXT NOT NULL,
     url TEXT NOT NULL 
 )    
 ''')
+
+# Create hours table 
+# Entity: hour 
+# Primary Key: hours_id 
+# Other Key: restaurant_id from Restaurant 
+# Attributes: day, open_time, close_time
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS hours (
+    hours_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    restaurant_id INTEGER NOT NULL, 
+    day INT NOT NULL, -- 0 = Sunday, 6 = Saturday
+    open_time TIME NOT NULL, 
+    close_time TIME NOT NULL, 
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id) ON DELETE CASCADE               
+)
+""")
 
 # Create menu table.
 # Entity: Menu 
