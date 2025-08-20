@@ -12,7 +12,7 @@ function Signup() {
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.nam]: e.target.value
+            [e.target.name]: e.target.value
         });
     };
 
