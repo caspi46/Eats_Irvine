@@ -6,14 +6,13 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages 
-// import Home from "./pages/Home";
-// import FavoriteRestaurant from "./pages/FavoriteRestaurant";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Review from "./pages/Review";
 
-
+// import Home from "./pages/Home";
+// import FavoriteRestaurant from "./pages/FavoriteRestaurant";
 // import RestaurantInfo from "./pages/RestaurantInfo";
-// import Review from "./pages/Review";
 // import UserInfo from "./pages/UserInfo";
 
 function App() {
@@ -24,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/review" element={<Review />} />
       </Routes>
     </Router>
   );
