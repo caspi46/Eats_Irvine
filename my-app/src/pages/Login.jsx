@@ -31,7 +31,7 @@ function Login() {
                 <div className="form-group">
                     <label>ID:</label>
                     <input
-                        type="id"
+                        type="text"
                         name="id"
                         value={formData.id}
                         onChange={handleChange}

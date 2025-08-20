@@ -31,7 +31,7 @@ function Signup() {
                 <div className="form-group">
                     <label>ID:</label>
                     <input
-                        type="id"
+                        type="text"
                         name="id"
                         value={formData.id}
                         onChange={handleChange}
@@ -64,7 +64,7 @@ function Signup() {
                     <button type="submit" className="signup-btn">
                         Sign Up
                     </button>
-                    <button onClick={() => navigate("/login")} className="login-btn">
+                    <button type="button" onClick={() => navigate("/login")} className="login-btn">
                         Back To Login
                     </button>
                 </div>
