@@ -4,7 +4,7 @@ import "./Review.css"
 
 function Review() {
     const [formData, setFormData] = useState({
-        rating: "",
+        rating: 0,
         comment: "",
     });
 
@@ -17,12 +17,14 @@ function Review() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (formData.rating == 0) {
+            alert("Please select a rating before submitting.");
+            return;
+        }
         console.log("Review submitted", formData);
     }
 
     const navigate = useNavigate(); // to navigate to the other page later (mb home page)
-
-    const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     // For future, can add the feature to upload the picture 
     return (
@@ -47,15 +49,20 @@ function Review() {
                             return (
                                 <span
                                     key={starValue}
-                                    className={`star ${starValue <= (hover || rating) ? "filled" : ""}`}
-                                    onClick={() => setRating(starValue)}
+                                    className={`star ${starValue <= (hover || formData.rating) ? "filled" : ""}`}
+                                    onClick={() =>
+                                        setFormData((prev) => ({ ...prev, rating: starValue }))
+                                    }
                                     onMouseEnter={() => setHover(starValue)}
                                     onMouseLeave={() => setHover(0)}
                                 >
                                     ★
                                 </span>
                             );
+
                         })}
+                        <small>{formData.rating} / 5</small>
+                        <input type="hidden" name="rating" value={formData.rating} required />
                     </div>
                 </div>
 
