@@ -4,7 +4,7 @@ import "./Review.css"
 
 function Review() {
     const [formData, setFormData] = useState({
-        // rating: "",
+        rating: "",
         comment: "",
     });
 
@@ -22,8 +22,8 @@ function Review() {
 
     const navigate = useNavigate(); // to navigate to the other page later (mb home page)
 
-    // const [rating, setRating] = useState(0);
-    // const [hover, setHover] = useState(0);
+    const [rating, setRating] = useState(0);
+    const [hover, setHover] = useState(0);
     // For future, can add the feature to upload the picture 
     return (
         <div className="review-container">
@@ -39,7 +39,8 @@ function Review() {
                         required
                     />
                 </div>
-                {/* <div className="star-rating">
+                <div className="star-rating">
+                    <label>Rate:</label>
                     {[...Array(5)].map((_, i) => {
                         const starValue = i + 1;
                         return (
@@ -54,7 +55,7 @@ function Review() {
                             </span>
                         );
                     })}
-                </div> */}
+                </div>
 
                 <div className="btn-group">
                     <button type="submit" className="review-btn">
