@@ -39,23 +39,26 @@ function Review() {
                         required
                     />
                 </div>
-                <div className="star-rating">
-                    <label>Rate:</label>
-                    {[...Array(5)].map((_, i) => {
-                        const starValue = i + 1;
-                        return (
-                            <span
-                                key={starValue}
-                                className={`star ${starValue <= (hover || rating) ? "filled" : ""}`}
-                                onClick={() => setRating(starValue)}
-                                onMouseEnter={() => setHover(starValue)}
-                                onMouseLeave={() => setHover(0)}
-                            >
-                                ★
-                            </span>
-                        );
-                    })}
+                <div className="form-group">
+                    <label>Rating:</label>
+                    <div className="star-rating">
+                        {[...Array(5)].map((_, i) => {
+                            const starValue = i + 1;
+                            return (
+                                <span
+                                    key={starValue}
+                                    className={`star ${starValue <= (hover || rating) ? "filled" : ""}`}
+                                    onClick={() => setRating(starValue)}
+                                    onMouseEnter={() => setHover(starValue)}
+                                    onMouseLeave={() => setHover(0)}
+                                >
+                                    ★
+                                </span>
+                            );
+                        })}
+                    </div>
                 </div>
+
 
                 <div className="btn-group">
                     <button type="submit" className="review-btn">
