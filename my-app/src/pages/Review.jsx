@@ -38,6 +38,8 @@ function Review() {
                         name="comment"
                         value={formData.comment}
                         onChange={handleChange}
+                        rows="6"
+                        cols="50"
                         required
                     />
                 </div>
