@@ -1,13 +1,10 @@
 from flask import request, jsonify, Blueprint
 from pathlib import Path
 import sqlite3
-<<<<<<< HEAD
 import csv
-=======
 import requests
 import os
 import time
->>>>>>> 8c900057994d3ce41f899c8971876b441fec2da4
 
 PLACES_KEY = os.getenv("google_api")
 LOCATION = "33.6846,-117.8265"
@@ -154,34 +151,27 @@ def get_menu():
     conn.close()
     return jsonify([dict(m) for m in menu_items])
 
-<<<<<<< HEAD
 #account authorization (logging in, signing up)
 AUTH_BP = Blueprint("auth", __name__, url_prefix="/auth")
 
 @AUTH_BP.route("/login", methods=["POST"])
 def login():
     'Logs the user in if login info is verified'
-    data = request.json
+    data = request.get_json()
     username = data.get("id")
     password = data.get("pw")
-    usercsv = "../irvine_eats_db/irvine_eats_user.csv"
 
-    if is_valid_login(username, password, usercsv):
+    conn = get_db_connection()
+    user = conn.execute(
+        "SELECT * FROM users WHERE id = ? AND pw = ?", (username, password)
+    ).fetchone()
+    conn.close()
+
+    if user:
         return jsonify({"message": "Login successful"}), 200
     
     return jsonify({"error": "Invalid username or password"}), 401
 
-def is_valid_login(username, password, csvfile):
-    'Checks if username and password are valid'
-    with open(csvfile, newline="") as usercsv:
-        user_info = csv.DictReader(usercsv)
-        
-        for row in user_info:
-            if (row["id"] == username and row["pw"] == password):
-                return True
-        
-        return False
-=======
 #review
 REVIEW_BP = Blueprint("review", __name__, url_prefix="/review")
 
@@ -210,4 +200,3 @@ def get_review():
     conn.close()
 
     return jsonify([dict(r) for r in reviews])
->>>>>>> 8c900057994d3ce41f899c8971876b441fec2da4
