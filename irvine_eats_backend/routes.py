@@ -1,6 +1,7 @@
 from flask import request, jsonify, Blueprint
 from pathlib import Path
 import sqlite3
+import csv
 
 DB_PATH = Path("irvine_eats.db")
 
@@ -80,3 +81,30 @@ def get_menu():
     menu_items = conn.execute("SELECT * FROM menu").fetchall()
     conn.close()
     return jsonify([dict(m) for m in menu_items])
+
+#account authorization (logging in, signing up)
+AUTH_BP = Blueprint("auth", __name__, url_prefix="/auth")
+
+@AUTH_BP.route("/login", methods=["POST"])
+def login():
+    'Logs the user in if login info is verified'
+    data = request.json
+    username = data.get("id")
+    password = data.get("pw")
+    usercsv = "../irvine_eats_db/irvine_eats_user.csv"
+
+    if is_valid_login(username, password, usercsv):
+        return jsonify({"message": "Login successful"}), 200
+    
+    return jsonify({"error": "Invalid username or password"}), 401
+
+def is_valid_login(username, password, csvfile):
+    'Checks if username and password are valid'
+    with open(csvfile, newline="") as usercsv:
+        user_info = csv.DictReader(usercsv)
+        
+        for row in user_info:
+            if (row["id"] == username and row["pw"] == password):
+                return True
+        
+        return False
