@@ -5,7 +5,7 @@ import requests
 import os
 import time
 
-PLACES_KEY = os.getenv("AIzaSyDfEldK9P5RxHOHzZtgfZGZT0wSu6cjXE4")
+PLACES_KEY = os.getenv("google_api")
 LOCATION = "33.6846,-117.8265"
 RADIUS = 5000
 BASE = "https://maps.googleapis.com/maps/api/place"
@@ -176,4 +176,5 @@ def get_review():
     else:
         reviews = conn.execute("SELECT * FROM reviews where review_id = ?", (review_id,)).fetchall()
     conn.close()
+
     return jsonify([dict(r) for r in reviews])
