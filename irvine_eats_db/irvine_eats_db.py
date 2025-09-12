@@ -150,5 +150,13 @@ with open('irvine_eats_review.csv', newline='') as csvfile:
             VALUES (?, ?, ?, ?)
         ''', (row['user_id'], row['restaurant_id'], row['rating'], row.get('comment')))
 
+with open('irvine_eats_favorite_restaurant.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        cursor.execute('''
+            INSERT INTO favorite_restaurants (user_id, restaurant_id) 
+            VALUES (?, ?)
+        ''', (row['user_id'], row['restaurant_id']))
+
 conn.commit()
 cursor.close()
