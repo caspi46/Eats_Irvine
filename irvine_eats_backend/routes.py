@@ -20,11 +20,13 @@ url = (
 )
 
 def get_db_connection():
+    'Returns a connection to the SQLite database'
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row #enables dict-like row access
     return conn
 
 def fetch_nearby(latlng: str, radius: int = RADIUS):
+    'Fetches nearby restaurants using Google Places API'
     params = {
         "location": latlng,
         "radius": radius,
@@ -43,6 +45,7 @@ def fetch_nearby(latlng: str, radius: int = RADIUS):
         params = {"pagetoken": nxt, "key": PLACES_KEY}
 
 def fetch_details(place_id: str):
+    'Fetches detailed information about a place using Google Places API'
     fields = "name,formatted_address,types,formatted_phone_number,website,url"
     params = {"place_id": place_id, "fields": fields, "key": PLACES_KEY}
     r = requests.get(DETAILS, params=params, timeout=5)
@@ -159,10 +162,10 @@ def add_review():
     conn.close()
     return jsonify({"message": "review item added!"}), 201
 
-@MENU_BP.route("/api/reviews", methods=["GET"])
+@REVIEW_BP.route("/api/reviews", methods=["GET"])
 def get_review():
     'Returns reviews in the database'
-    review_id = request.get_json()
+    review_id = request.args.get("review_id")
     conn = get_db_connection()
     if review_id is None:
         reviews = conn.execute("SELECT * FROM reviews").fetchall()
@@ -190,5 +193,31 @@ def login():
 
     if user:
         return jsonify({"message": "Login successful"}), 200
-    
-    return jsonify({"error": "Invalid username or password"}), 401
+    else:
+        return jsonify({"error": "Invalid username or password"}), 401
+
+#favorite restaurants
+FAV_REST_BP = Blueprint("fav_rest", __name__, url_prefix="/fav_rest")
+
+@FAV_REST_BP.route("/add", methods=["POST"])
+def save_fav_restaurant():
+    'Saves a favorite restaurant for a user'
+    data = request.get_json()
+    conn = get_db_connection()
+    conn.execute(
+        "INSERT INTO favorite_restaurants (user_id, restaurant_id) VALUES (?, ?)",
+        (data["user_id"], data["restaurant_id"])
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "favorite restaurant added!"}), 201
+
+@FAV_REST_BP.route("/api/fav_rest", methods=["GET"])
+def get_fav_restaurants():
+    'Returns a list of favorite restaurants for a user'
+    user_id = request.args.get("user_id")
+    conn = get_db_connection()
+    favorites = conn.execute("SELECT * FROM favorite_restaurants where user_id = ?", (user_id,)).fetchall()
+    conn.close()
+
+    return jsonify([dict(f) for f in favorites])
