@@ -84,6 +84,21 @@ CREATE TABLE IF NOT EXISTS reviews (
 )
 ''')
 
+# Create favorite restaurants table
+# Entity: FavoriteRestaurant
+# Primary Key: fav_id
+# Other Key: user_id from User, restaurant_id from Restaurant
+# Attributes: none
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS favorite_restaurants (
+    fav_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    restaurant_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id) ON DELETE CASCADE
+)
+''')
+
 # get average rating from review table and restaurant table 
 # use this for the average rating for the restaurant 
 cursor.execute("""
@@ -110,6 +125,14 @@ with open('irvine_eats_restaurant.csv', newline='') as csvfile:
             INSERT INTO restaurants (name, address, hours, category, phone, url) 
             VALUES (?, ?, ?, ?, ?, ?)
         ''', (row['name'], row['address'], row['hours'], row['category'], row['phone'], row['url']))
+
+with open('irvine_eats_hour.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        cursor.execute('''
+            INSERT INTO hours (restaurant_id, day, open_time, close_time) 
+            VALUES (?, ?, ?, ?)
+        ''', (row['restaurant_id'], row['day'], row['open_time'], row['close_time']))
 
 with open('irvine_eats_menu.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
