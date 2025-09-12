@@ -82,6 +82,7 @@ RESTAURANTS_BP = Blueprint("restaurants", __name__, url_prefix="/restaurants")
 
 @RESTAURANTS_BP.route("/add", methods=["POST"])
 def add_restaurant():
+    'Adds new restaurants to the database from Google Places API'
     conn = get_db_connection()
     cur = conn.cursor()
     inserted = 0
@@ -128,16 +129,7 @@ MENU_BP = Blueprint("menu", __name__, url_prefix="/menu")
 @MENU_BP.route("/add", methods=["POST"])
 def add_menu():
     'Adds a new menu item to the database'
-    response = requests.get(url)
-    data = response.json()
-    conn = get_db_connection()
-    conn.execute(
-        "INSERT INTO menu (restaurant_id, item_name, description, price) VALUES (?, ?, ?, ?)",
-        (data["restaurant_id"], data["item_name"], data["description"], data["price"])
-    )
-    conn.commit()
-    conn.close()
-    return jsonify({"message": "menu item added!"}), 201
+    pass
 
 @MENU_BP.route("/api/menu", methods=["GET"])
 def get_menu():
@@ -150,27 +142,6 @@ def get_menu():
         menu_items = conn.execute("SELECT * FROM menu where item_id = ?", (item_id,)).fetchall()
     conn.close()
     return jsonify([dict(m) for m in menu_items])
-
-#account authorization (logging in, signing up)
-AUTH_BP = Blueprint("auth", __name__, url_prefix="/auth")
-
-@AUTH_BP.route("/login", methods=["POST"])
-def login():
-    'Logs the user in if login info is verified'
-    data = request.get_json()
-    username = data.get("id")
-    password = data.get("pw")
-
-    conn = get_db_connection()
-    user = conn.execute(
-        "SELECT * FROM users WHERE id = ? AND pw = ?", (username, password)
-    ).fetchone()
-    conn.close()
-
-    if user:
-        return jsonify({"message": "Login successful"}), 200
-    
-    return jsonify({"error": "Invalid username or password"}), 401
 
 #review
 REVIEW_BP = Blueprint("review", __name__, url_prefix="/review")
@@ -200,3 +171,24 @@ def get_review():
     conn.close()
 
     return jsonify([dict(r) for r in reviews])
+
+#account authorization (logging in, signing up)
+AUTH_BP = Blueprint("auth", __name__, url_prefix="/auth")
+
+@AUTH_BP.route("/login", methods=["POST"])
+def login():
+    'Logs the user in if login info is verified'
+    data = request.get_json()
+    username = data.get("id")
+    password = data.get("pw")
+
+    conn = get_db_connection()
+    user = conn.execute(
+        "SELECT * FROM users WHERE id = ? AND pw = ?", (username, password)
+    ).fetchone()
+    conn.close()
+
+    if user:
+        return jsonify({"message": "Login successful"}), 200
+    
+    return jsonify({"error": "Invalid username or password"}), 401
