@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory 
 from routes import USERS_BP, RESTAURANTS_BP, MENU_BP
 
 app = Flask(__name__)
