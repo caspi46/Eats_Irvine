@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Review from "./pages/Review";
+import Home from "./pages/Home";
 
 // import Home from "./pages/Home";
 // import FavoriteRestaurant from "./pages/FavoriteRestaurant";
@@ -21,6 +22,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/home" elements={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/review" element={<Review />} />
